@@ -4,13 +4,16 @@ require 'rest-client'
 
 class RaResaleChecker
 
-  def run(url)
+  def initialize(url)
+    @url = url
+  end
+
+  def run
     send_text(@event_name) if resale_ticket_available?
   end
 
   def resale_ticket_available?
-    parsed_doc = Nokogiri::HTML(RestClient.get(url))
-    RestClient.get(url)
+    parsed_doc = Nokogiri::HTML(RestClient.get(@url))
     @event_name = parsed_doc.search('#sectionHead h1').text
     parsed_doc.search('#buynow').present?
   end
