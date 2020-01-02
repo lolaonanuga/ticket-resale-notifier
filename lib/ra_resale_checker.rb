@@ -9,7 +9,10 @@ class RaResaleChecker
   end
 
   def run
-    send_text(@event_name) if resale_ticket_available?
+    if resale_ticket_available?
+      send_text(@event_name)
+    else
+      puts 'no tickets available'
   end
 
   def resale_ticket_available?

@@ -1,7 +1,7 @@
 
 source 'https://rubygems.org'
 
-
+gem 'rake'
 gem 'nokogiri'   
 gem 'dotenv'    
 gem 'rest-client', '~> 2.1.0'
