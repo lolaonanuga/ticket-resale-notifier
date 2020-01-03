@@ -13,9 +13,9 @@ class RaResaleChecker
 
   def run
     if resale_ticket_available?
-      send_text(@event_name)
+      send_text
     else
-      puts 'no tickets available'
+      puts "no tickets available for #{@event_name}"
     end
   end
 
@@ -25,11 +25,11 @@ class RaResaleChecker
     parsed_doc.search('#buynow').any?
   end
 
-  def send_text(event_name)
+  def send_text
 
     client = Twilio::REST::Client.new(ENV['ACCOUNT_SID'], ENV['AUTH_TOKEN'])
     client.messages.create(
-        body: "A resale ticket is now available for #{event_name}",
+        body: "A resale ticket is now available for #{@event_name}",
         to: ENV['MOBILE_NUM'],
         from: ENV['TWILIO_NUM'])
   end
