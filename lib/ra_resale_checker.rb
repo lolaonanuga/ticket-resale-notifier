@@ -2,7 +2,6 @@ require 'dotenv/load'
 require 'twilio-ruby'
 require 'nokogiri'    
 require 'rest-client'
-require 'byebug'
 Dotenv.load('.env.local')
 
 class RaResaleChecker
