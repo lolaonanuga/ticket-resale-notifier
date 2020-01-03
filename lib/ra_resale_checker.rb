@@ -26,7 +26,6 @@ class RaResaleChecker
   end
 
   def send_text
-
     client = Twilio::REST::Client.new(ENV['ACCOUNT_SID'], ENV['AUTH_TOKEN'])
     client.messages.create(
         body: "A resale ticket is now available for #{@event_name}",

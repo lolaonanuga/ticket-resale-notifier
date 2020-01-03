@@ -8,21 +8,28 @@ RSpec.describe 'RA Resale Checker' do
   context 'when a ticket is available' do
     response = File.read("spec/fixtures/files/response.html")
     let(:ra_checker) { RaResaleChecker.new("www.faketicketurl.com") }
-    before do
     
+    before do
       stub_request(:get, "www.faketicketurl.com")
         .to_return(status: 200, body: response , headers: {})
-          ra_checker.run
-
+          
       stub_request(:post, "https://api.twilio.com/2010-04-01/Accounts/fakesid1234/Messages.json")
-         .with(
-           body: { "Body" => "A resale ticket is now available for Event ", "From"=>"+2222222", "To"=>"fakenum1234"}.to_json,
-           headers: { 'Authorization'=> 'Basic ZmFrZXNpZDEyMzQ6ZmFrZXRva2VuMTIzNA==' } )
-         .to_return(status: 200, body: "", headers: {})
+        .with(
+          body: { 
+            "Body"=> "A resale ticket is now available for Event ",
+             "From"=>"+2222222",
+              "To"=>"fakenum1234"
+          },
+          headers: {
+            'Authorization'=>'Basic ZmFrZXNpZDEyMzQ6ZmFrZXRva2VuMTIzNA==',
+          })
+        .to_return(status: 200, body: "", headers: {})
+      allow(ra_checker).to receive(:send_text)
+      ra_checker.run
     end
 
     it 'sends a text message' do
-      expect(ra_checker).to receive(:send_text)
+      expect(ra_checker).to have_received(:send_text)
     end
   end
 
